@@ -26,9 +26,10 @@ def test_calculate_category_rewards_above_cap():
         spending=Decimal("8000"),
         reward_rate=Decimal("0.03"),
         annual_spending_cap=Decimal("6000"),
+        base_reward_rate=Decimal("0.01"),
     )
 
-    assert result == Decimal("180.00")
+    assert result == Decimal("200.00")
 
 
 def test_calculate_category_rewards_without_cap():
@@ -84,6 +85,7 @@ def test_calculate_net_rewards():
                 RewardCategory.RESTAURANTS,
                 Decimal("0.03"),
                 Decimal("6000"),
+                Decimal("0.01"),
             ),
             RewardRule(
                 RewardCategory.GROCERIES,
@@ -99,4 +101,51 @@ def test_calculate_net_rewards():
 
     result = calculate_net_rewards(card, spending)
 
-    assert result == Decimal("205.00")
+    assert result == Decimal("225.00")
+
+
+def test_calculate_category_rewards_exactly_at_cap():
+    result = calculate_category_rewards(
+        spending=Decimal("6000"),
+        reward_rate=Decimal("0.03"),
+        annual_spending_cap=Decimal("6000"),
+        base_reward_rate=Decimal("0.01"),
+    )
+
+    assert result == Decimal("180.00")
+
+
+def test_calculate_category_rewards_zero_spending():
+    result = calculate_category_rewards(
+        spending=Decimal("0"),
+        reward_rate=Decimal("0.03"),
+        annual_spending_cap=Decimal("6000"),
+        base_reward_rate=Decimal("0.01"),
+    )
+
+    assert result == Decimal("0.00")
+
+
+def test_calculate_card_rewards_missing_category():
+    card = CreditCard(
+        name="Everyday Rewards",
+        annual_fee=Decimal("95.00"),
+        reward_rules=[
+            RewardRule(
+                RewardCategory.RESTAURANTS,
+                Decimal("0.03"),
+            ),
+            RewardRule(
+                RewardCategory.GROCERIES,
+                Decimal("0.02"),
+            ),
+        ],
+    )
+
+    spending = {
+        RewardCategory.RESTAURANTS: Decimal("1000"),
+    }
+
+    result = calculate_card_rewards(card, spending)
+
+    assert result == Decimal("30.00")
