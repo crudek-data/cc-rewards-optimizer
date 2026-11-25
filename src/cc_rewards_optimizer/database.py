@@ -17,6 +17,7 @@ def initialize_database(db_path: str | Path) -> None:
     connection = duckdb.connect(str(db_path))
 
     try:
+        # transactions tbl
         connection.execute(
             """
             CREATE TABLE IF NOT EXISTS transactions (
@@ -29,6 +30,33 @@ def initialize_database(db_path: str | Path) -> None:
             )
             """
         )
+        # credit_cards tbl
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS credit_cards (
+                card_id VARCHAR PRIMARY KEY,
+                name VARCHAR NOT NULL UNIQUE,
+                annual_fee DECIMAL(12, 2) NOT NULL
+            )
+            """
+        )
+        # reward_rules tbl
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS reward_rules (
+                rule_id VARCHAR PRIMARY KEY,
+                card_id VARCHAR NOT NULL,
+                category VARCHAR NOT NULL,
+                reward_rate DECIMAL(5, 4) NOT NULL,
+                annual_spending_cap DECIMAL(12, 2),
+                base_reward_rate DECIMAL(5, 4) NOT NULL,
+                FOREIGN KEY (card_id) REFERENCES credit_cards(card_id),
+                UNIQUE (card_id, category)
+            )
+            """
+        )
+
+
     finally:
         connection.close()
 
