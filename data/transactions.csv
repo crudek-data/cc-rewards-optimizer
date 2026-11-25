@@ -1,0 +1,21 @@
+transaction_date,description,category,amount
+2026-01-05,Kroger,groceries,125.50
+2026-01-07,Chipotle,restaurants,18.75
+2026-01-10,Shell,gas,45.00
+2026-01-12,Delta Airlines,travel,325.00
+2026-01-15,Walmart,other,82.40
+2026-02-03,Whole Foods,groceries,95.25
+2026-02-08,Olive Garden,restaurants,65.00
+2026-02-11,Costco,groceries,210.00
+2026-02-14,Marriott,travel,275.00
+2026-02-18,Exxon,gas,52.30
+2026-03-02,Trader Joes,groceries,78.60
+2026-03-05,Texas Roadhouse,restaurants,92.50
+2026-03-09,United Airlines,travel,410.00
+2026-03-12,BP,gas,48.75
+2026-03-15,Target,other,115.00
+2026-04-04,Kroger,groceries,145.00
+2026-04-08,Starbucks,restaurants,22.50
+2026-04-12,Shell,gas,55.00
+2026-04-18,Airbnb,travel,350.00
+2026-04-22,Amazon,other,135.75
